@@ -69,7 +69,7 @@ createBtnElem.addEventListener('click', haveValue);
 listElem.addEventListener('click', checkboxClick);
 
 const onStorageChange = (e) => {
-  if (e.key === 'tasksList') {
+  if (e.key !== 'tasksList') {
     renderTasks();
   }
 };
