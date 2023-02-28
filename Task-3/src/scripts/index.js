@@ -1,3 +1,5 @@
+import { setItem, getItem } from './storage';
+
 const tasks = [
   { id: 'first-task', text: 'Buy milk', done: false },
   { id: 'second-task', text: 'Pick up Tom from airport', done: false },
