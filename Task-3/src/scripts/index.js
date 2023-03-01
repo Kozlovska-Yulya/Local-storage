@@ -46,7 +46,6 @@ function haveValue() {
   if (!valueInputElem) {
     return;
   }
-  inputElem.innerHTML = '';
 
   const getTaskList = getItem('tasksList') || [];
 
@@ -57,7 +56,7 @@ function haveValue() {
   });
 
   setItem('tasksList', newTasksList);
-
+  inputElem.value = '';
   renderTasks();
 }
 
@@ -67,10 +66,21 @@ function checkboxClick(event) {
     return;
   }
 
-  const taskData = tasks.find(({ id }) => id === event.target.dataset.id);
+  const tasksList = getItem('tasksList');
 
-  Object.assign(taskData, { done: event.target.checked });
-  renderTasks(tasks);
+  const updatedTasksList = tasksList.map((task) => {
+    if (task.id === event.target.dataset.id) {
+      const done = event.target.checked;
+      return {
+        ...task,
+        done,
+      };
+    }
+    return task;
+  });
+
+  setItem('tasksList', updatedTasksList);
+  renderTasks();
 }
 
 createBtnElem.addEventListener('click', haveValue);
