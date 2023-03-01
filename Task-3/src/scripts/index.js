@@ -1,5 +1,4 @@
-import { setItem, getItem } from './storage';
-
+import { setItem, getItem } from './storage.js';
 const tasks = [
   { id: 'first-task', text: 'Buy milk', done: false },
   { id: 'second-task', text: 'Pick up Tom from airport', done: false },
@@ -10,9 +9,11 @@ const tasks = [
 
 const listElem = document.querySelector('.list');
 
-const renderTasks = (tasksList) => {
+const renderTasks = () => {
+  const getTasksList = getItem('tasksList') || [];
+
   listElem.innerHTML = '';
-  const tasksElems = tasksList
+  const tasksElems = getTasksList
     .sort((a, b) => a.done - b.done)
     .map(({ text, done, id }) => {
       const listItemElem = document.createElement('li');
@@ -45,14 +46,19 @@ function haveValue() {
   if (!valueInputElem) {
     return;
   }
+  inputElem.innerHTML = '';
 
-  tasks.push({
+  const getTaskList = getItem('tasksList') || [];
+
+  const newTasksList = getTaskList.concat({
     text: valueInputElem,
     done: false,
     id: Math.random().toString(),
   });
 
-  renderTasks(tasks);
+  setItem('tasksList', newTasksList);
+
+  renderTasks();
 }
 
 function checkboxClick(event) {
